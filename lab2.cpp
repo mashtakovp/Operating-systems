@@ -50,18 +50,31 @@ void copy() {
 }
 
 void move() {
-	cout << "Введите название файла, который вы хотите переместить: ";
-	string fileName1, fileName2;
+	cout << "Введите название файла, который вы хотите переместить: " ;
+	string fileName1, folderName1;
 	cin >> fileName1;
-
-
-
-	cout << "Название второго файла: ";
-	cin >> fileName2;
-
-	string command = "mv " + fileName1 + " " + fileName2;
-	system(command.c_str());
+	cout << "Введите название директории: ";
+		cin >> folderName1;
+	ifstream fin(fileName1);
+	if (!fin) {
+		cout << "Файл " << fileName1 << " не найден" << endl;
+		fin.close();
+		return;
+	}
+	ofstream fout(folderName1 + "/" + fileName1);
+	if (!fout) {
+		cout << "Директория " << folderName1 << " не найдена" << endl;
+		fin.close();
+		return;
+	}
+	for (char a; fin.get(a); fout << a);
+	fin.close();
+	fout.close();
+	cout << "Файл  перемещён!";
+	remove(fileName1.c_str());
 }
+
+
 
 void getInfo() {
 	cout << "Введите название файла: ";
@@ -245,4 +258,3 @@ int main() {
 	}
 	return 0;
 }
-
